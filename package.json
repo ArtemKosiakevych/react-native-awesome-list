@@ -1,0 +1,27 @@
+{
+  "name": "react-native-awesome-list",
+  "version": "0.0.1",
+  "description": "Awesome animated list with groups and subgroups for react-native",
+  "main": "src/AwesomeList.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArtemKosiakevych/react-native-awesome-list"
+  },
+  "keywords": [
+    "react-component",
+    "react-native-list",
+    "react-list",
+    "react-native-grouped-list",
+    "react-native-subgrouped-list",
+    "react-native-animated-list",
+    "react-native parallax header",
+    "react-native FlatList",
+    "react-native Animated FlatList"
+  ],
+  "author": "Artem Kosiakevych <artem.kosiakevych@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ArtemKosiakevych/react-native-awesome-list/issues"
+  },
+  "homepage": "https://github.com/ArtemKosiakevych/react-native-awesome-list"
+}
