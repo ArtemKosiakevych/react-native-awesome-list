@@ -269,6 +269,7 @@ class AwesomeList extends React.Component {
 
 AwesomeList.propTypes = {
   data: PropTypes.array.isRequired,
+  contentContainerStyle: PropTypes.any,
   childListProps: PropTypes.object,
   renderItem: PropTypes.func,
   renderGroup: PropTypes.func,
