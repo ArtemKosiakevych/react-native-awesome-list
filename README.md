@@ -11,12 +11,96 @@ React Native animated list with groups and subgroups
 2. `react-native link react-native-awesome-list`
 
 # Usage
+```
+import AwesomeList from 'react-native-awesome-list'
+...
+render() {
+    let data = [
+      {
+        id: Math.random(),
+        type: 'group',
+        items: [{
+          id: Math.random(),
+          type: 'subgroup',
+          items: [{id: Math.random()}, {id: Math.random()}]
+        }, {
+          id: Math.random(),
+          type: 'subgroup',
+          items: [{id: Math.random()}, {id: Math.random()}]
+        }]
+      },
+      {
+        id: Math.random(),
+        type: 'group',
+        items: [{id: Math.random()}, {id: Math.random()}]
+      },
+      {
+        id: Math.random(),
+      },
+    ]
+    return (
+      <AwesomeList
+        data={data}
+        renderItem={this.renderItem}
+        renderGroup={this.renderGroup}
+        renderSubGroup={this.renderSubGroup}
+        renderAnimatingHeader={()=> this.renderAnimatingHeader('HEADER')}
+        renderAnimatingFooter={()=> this.renderAnimatingHeader('FOOTER')}
+      />
+    );
+  }
 
+  renderAnimatingHeader(title){
+    return (
+      <View style={{flex: 1, backgroundColor: 'yellow', justifyContent: 'center', alignItems: 'center'}}>
+        <Text>{title}</Text>
+      </View>
+    );
+  }
+
+  renderItem(row){
+    return (
+      <View style={{backgroundColor: 'red', height: 50, marginVertical: 1}}/>
+    );
+  }
+
+  renderGroup(){
+    return (
+      <View style={{backgroundColor: 'blue', height: 50, marginVertical: 1}}/>
+    );
+  }
+  
+  renderSubGroup(){
+    return (
+      <View style={{backgroundColor: 'green', height: 50, marginVertical: 1}}/>
+    );
+  }
+...
+```
 ## Props
 
 | Prop  | Default  | Type | Description |
 | :------------ |:---------------:| :---------------:| :-----|
 | data | null | `array` | data for list |
+| contentContainerStyle | null | `style` | root scrollview style |
+| any FlatList props | null | `props` | you can provide FlatList props like ItemSeparatorComponent etc. |
+| data | null | `array` | data for list |
+| renderItem | null | `func` | render function for list item rendering |
+| renderGroup | null | `func` | render function for list group rendering |
+| renderSubGroup | null | `func` | render function for list subgroup rendering |
+| toggleGroup | func | `func` | return index of clicked group and is group expanded bool|
+| toggleSubGroup | func | `func` | return id of clicked subgroup and is subgroup expanded bool |
+| headerHeight | 100 | `number` | header height |
+| renderAnimatingHeader | null | `func` | render function for list animated header rendering |
+| renderAnimatingFooter | null | `func` | render function for list animated footer rendering |
+| disableScaleAnimation | false | `bool` | disabling scale animation while scroll |
+| disableOpacityAnimation | false | `bool` | disabling opacity animation while scroll |
 
+
+## Enjoy
+
+## Questions or suggestions?
+
+Feel free to [open an issue](https://github.com/ArtemKosiakevych/react-native-awesome-list/issues)
 
 
