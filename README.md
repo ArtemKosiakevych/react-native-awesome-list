@@ -7,7 +7,7 @@ React Native animated list with groups and subgroups
 ![](./src/AwesomeListIos.gif)
 ![](./src/AwesomeListAndroid.gif)
 ## Installation
-1. `npm install react-native-awesome-list --save`
+1. `npm install react-native-awesome-list --save` or `yarn add react-native-awesome-list`
 2. `react-native link react-native-awesome-list`
 
 # Usage
