@@ -61,12 +61,13 @@ class AwesomeList extends React.Component {
       <AnimatedFlatList
         onScroll={scrollYEvent}
         extraData={this.state}
-        keyExtractor={item => item.id}
+        keyExtractor={(item, index) => (item.id || index)}        
         scrollEventThrottle={16}
         {...this.props}
         contentContainerStyle={[
-          {...this.props.contentContainerStyle},
-          {paddingTop: Platform.OS === 'android' && this.props.renderAnimatingHeader ? this.props.headerHeight : null}]}
+          this.props.contentContainerStyle,
+          {paddingTop: Platform.OS === 'android' && this.props.renderAnimatingHeader ? this.props.headerHeight : null}
+        ]}
         ref="list"
         data={this.state.data}
         renderItem={ this.renderRow }
@@ -193,7 +194,7 @@ class AwesomeList extends React.Component {
         return (
           <AnimatedFlatList
             extraData={this.state}
-            keyExtractor={item => item.id}
+            keyExtractor={(item, index) => (item.id || index)}            
             renderItem={this.renderSubGroupItems}
             data={group.items}/>
         )
@@ -201,7 +202,7 @@ class AwesomeList extends React.Component {
         return (
           <AnimatedFlatList
             extraData={this.state}
-            keyExtractor={item => item.id}
+            keyExtractor={(item, index) => (item.id || index)}            
             renderItem={this.renderItemBlock}
             data={group.items}/>
         )
@@ -227,7 +228,7 @@ class AwesomeList extends React.Component {
         <AnimatedFlatList
           {...this.props.childListProps}
           extraData={this.state}
-          keyExtractor={item => item.id}
+          keyExtractor={(item, index) => (item.id || index)}
           renderItem={this.renderItemBlock}
           data={group.items}/>
       )
@@ -268,8 +269,7 @@ class AwesomeList extends React.Component {
 }
 
 AwesomeList.propTypes = {
-  data: PropTypes.array.isRequired,
-  contentContainerStyle: PropTypes.any,
+  data: PropTypes.node.isRequired,
   childListProps: PropTypes.object,
   renderItem: PropTypes.func,
   renderGroup: PropTypes.func,
