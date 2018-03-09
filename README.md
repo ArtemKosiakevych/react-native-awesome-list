@@ -84,17 +84,18 @@ render() {
 | data | undefined | `array` | data for list |
 | contentContainerStyle | undefined | `style` | root scrollview style |
 | any FlatList props | undefined | `props` | you can provide FlatList props like ItemSeparatorComponent etc. |
+| childListProps | undefined | `props` | you can provide child list props |
 | renderItem | undefined | `func` | render function for list item rendering |
 | renderGroup | undefined | `func` | render function for list group rendering |
 | renderSubGroup | undefined | `func` | render function for list subgroup rendering |
 | toggleGroup | func | `func` | return index of clicked group and is group expanded bool|
 | toggleSubGroup | func | `func` | return id of clicked subgroup and is subgroup expanded bool |
 | headerHeight | 100 | `number` | header height |
+| footerHeight | 100 | `number` | footer height |
 | renderAnimatingHeader | undefined | `func` | render function for list animated header rendering |
 | renderAnimatingFooter | undefined | `func` | render function for list animated footer rendering |
 | disableScaleAnimation | false | `bool` | disabling scale animation while scroll |
 | disableOpacityAnimation | false | `bool` | disabling opacity animation while scroll |
-
 
 ## Enjoy
 

@@ -1,11 +1,14 @@
 {
   "name": "react-native-awesome-list",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "Awesome animated list with groups and subgroups for react-native",
   "main": "src/AwesomeList.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ArtemKosiakevych/react-native-awesome-list"
+  },
+  "scripts": {
+    "eslint": "eslint ./src/ --quiet"
   },
   "keywords": [
     "react-component",
@@ -23,5 +26,13 @@
   "bugs": {
     "url": "https://github.com/ArtemKosiakevych/react-native-awesome-list/issues"
   },
-  "homepage": "https://github.com/ArtemKosiakevych/react-native-awesome-list"
+  "homepage": "https://github.com/ArtemKosiakevych/react-native-awesome-list",
+  "devDependencies": {
+    "babel-eslint": "^8.2.2",
+    "eslint": "^4.18.2",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-react": "^7.7.0",
+    "eslint-plugin-react-native": "^3.2.1"
+  }
 }

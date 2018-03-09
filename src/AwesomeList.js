@@ -1,137 +1,92 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import * as React from 'react'
 import {
-  TouchableOpacity,
   Animated,
   View,
-  Platform,
   LayoutAnimation,
-  FlatList
 } from 'react-native'
-const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
-class AwesomeList extends React.Component {
-  constructor(props){
+import Header from './Views/Header'
+import Footer from './Views/Footer'
+import List from './Views/List'
+import Item from './Views/Item'
+import Group from './Views/Group'
+import styles from './styles'
+
+type Props = {
+  data: Array,
+  childListProps: any,
+  renderItem: () => React.Element<*>,
+  renderGroup: () => React.Element<*>,
+  renderSubGroup: () => React.Element<*>,
+  toggleGroup: () => number,
+  toggleSubGroup: () => number,
+  headerHeight: number,
+  footerHeight: number,
+  renderAnimatingHeader: () => React.Element<*>,
+  renderAnimatingFooter: () => React.Element<*>,
+  disableScaleAnimation: boolean,
+  disableOpacityAnimation: boolean,
+}
+
+export default class AwesomeList extends React.Component<Props> {
+  static defaultProps = {
+    headerHeight: 100,
+    footerHeight: 100,
+  };
+
+  constructor(props) {
     super(props)
     this.state = {
-      data: props.data,
       scrollY: new Animated.Value(0),
     }
   }
 
-  componentWillUnmount(){
-    if (this.refs.list) {
-      this.refs.list.getNode().scrollToOffset({ offset: 0, animated: false });
-    }
-  }
-
-  componentWillReceiveProps(nextProps){
-    this.setState({data: nextProps.data})
-  }
-
+  /* eslint-disable class-methods-use-this */
   componentWillUpdate() {
-    LayoutAnimation.easeInEaseOut();
+    LayoutAnimation.easeInEaseOut()
   }
 
   render() {
-    if (!this.props.renderAnimatingHeader) {
-      return this.renderMainList()
-    }
-    const translateYContent = this.state.scrollY.interpolate({
-      inputRange: [0, this.props.headerHeight],
-      outputRange: [this.props.headerHeight, 0],
-      extrapolate: 'clamp',
-    });
     return (
-      <View style={{flex: 1}}>
-        <Animated.View style={{ flex: 1, transform: [{ translateY: Platform.OS === 'ios' ? translateYContent : 0 }] }}>
-          {this.renderMainList()}
-        </Animated.View>
-        {this.renderHeader()}
+      <View style={styles.fill}>
+        {this.renderMainList()}
+        {this.props.renderAnimatingHeader && this.renderHeader()}
         {this.props.renderAnimatingFooter && this.renderFooter()}
       </View>
     )
   }
 
-  renderMainList(){
-    const scrollYEvent = Animated.event(
-      [{ nativeEvent: { contentOffset: { y: this.state.scrollY }}}],
-      { useNativeDriver: true });
+  renderMainList() {
     return (
-      <AnimatedFlatList
-        onScroll={scrollYEvent}
-        extraData={this.state}
-        keyExtractor={(item, index) => (item.id || index)}        
-        scrollEventThrottle={16}
+      <List
+        scrollY={this.state.scrollY}
         {...this.props}
-        contentContainerStyle={[
-          this.props.contentContainerStyle,
-          {paddingTop: Platform.OS === 'android' && this.props.renderAnimatingHeader ? this.props.headerHeight : null}
-        ]}
-        ref="list"
-        data={this.state.data}
-        renderItem={ this.renderRow }
+        renderItem={this.renderRow}
       />
     )
   }
 
   renderHeader() {
-    const translateY = this.state.scrollY.interpolate({
-      inputRange: [0, this.props.headerHeight, this.props.headerHeight * 1.5],
-      outputRange: [0, -this.props.headerHeight / 1.5, -this.props.headerHeight],
-      extrapolate: 'clamp',
-    });
-    const opacity = this.state.scrollY.interpolate({
-      inputRange: [0, this.props.headerHeight / 2, this.props.headerHeight * 1.5],
-      outputRange: [1, 1, 0],
-      extrapolate: 'clamp',
-    });
-    const scale = this.state.scrollY.interpolate({
-      inputRange: [-50, 0],
-      outputRange: [1.2, 1],
-      extrapolate: 'clamp',
-    });
     return (
-      <Animated.View style={[
-        {position: 'absolute', width: '100%', height: this.props.headerHeight},
-        { opacity: this.props.disableOpacityAnimation ? 1 : opacity },
-        { transform: [
-          { translateY },
-          { scale: this.props.disableScaleAnimation ? 1 : scale }
-        ]}
-      ]}>
-        {this.props.renderAnimatingHeader()}
-      </Animated.View>
+      <Header
+        headerHeight={this.props.headerHeight}
+        scrollY={this.state.scrollY}
+        disableOpacityAnimation={this.props.disableOpacityAnimation}
+        disableScaleAnimation={this.props.disableScaleAnimation}
+        renderAnimatingHeader={this.props.renderAnimatingHeader}
+      />
     )
   }
 
   renderFooter() {
-    const translateY = this.state.scrollY.interpolate({
-      inputRange: [0, this.props.headerHeight, this.props.headerHeight * 1.5],
-      outputRange: [0, this.props.headerHeight / 1.5, this.props.headerHeight],
-      extrapolate: 'clamp',
-    });
-    const opacity = this.state.scrollY.interpolate({
-      inputRange: [0, this.props.headerHeight / 2, this.props.headerHeight * 1.5],
-      outputRange: [1, 1, 0],
-      extrapolate: 'clamp',
-    });
-    const scale = this.state.scrollY.interpolate({
-      inputRange: [-50, 0],
-      outputRange: [1.2, 1],
-      extrapolate: 'clamp',
-    });
     return (
-      <Animated.View style={[
-        {position: 'absolute', bottom: 0, right: 0, left: 0, height: this.props.headerHeight},
-        { opacity: this.props.disableOpacityAnimation ? 1 : opacity },
-        { transform: [
-          { translateY },
-          { scale: this.props.disableScaleAnimation ? 1 : scale }
-        ]}
-      ]}>
-        {this.props.renderAnimatingFooter()}
-      </Animated.View>
+      <Footer
+        footerHeight={this.props.footerHeight}
+        scrollY={this.state.scrollY}
+        disableOpacityAnimation={this.props.disableOpacityAnimation}
+        disableScaleAnimation={this.props.disableScaleAnimation}
+        renderAnimatingFooter={this.props.renderAnimatingFooter}
+      />
     )
   }
 
@@ -140,150 +95,102 @@ class AwesomeList extends React.Component {
       return this.renderGroup(rowData)
     } else if (rowData.item.type === 'subgroup') {
       return this.renderSubGroup(rowData)
-    } else {
-      return this.renderItemBlock(rowData)
     }
+    return this.renderItemBlock(rowData)
   }
 
-  renderGroup = (rowData) => {
-    let group = rowData.item
+  renderItemBlock = rowData => <Item renderItem={this.props.renderItem} rowData={rowData} />
+
+  renderGroup = (groupData) => {
     return (
-      <View>
-        <TouchableOpacity onPress={()=>this.toggleGroup(rowData.index)}>
-          {this.props.renderGroup && this.props.renderGroup(group)}
-        </TouchableOpacity>
-        {this.renderGroupItems(group, group.items)}
-      </View>
+      <Group
+        groupData={groupData}
+        onPress={this.toggleGroup}
+        renderGroup={this.props.renderGroup}
+        renderGroupItems={this.renderGroupItems}
+      />
     )
   }
 
-  renderSubGroup = (rowData) => {
-    let subGroup = rowData.item
+  renderSubGroup = (subGroupData) => {
     return (
-      <View>
-        <TouchableOpacity onPress={()=>this.toggleSubGroup(subGroup.id)}>
-          {this.props.renderSubGroup && this.props.renderSubGroup(subGroup)}
-        </TouchableOpacity>
-        {this.renderGroupItems(subGroup, true)}
-      </View>
+      <Group
+        groupData={subGroupData}
+        onPress={this.toggleSubGroup}
+        renderGroup={this.props.renderGroup}
+        renderGroupItems={this.renderGroupItems}
+      />
     )
   }
 
-  renderItemBlock = (data) => {
-    if (!this.props.renderItem) {
-      return null
-    }
-    return this.props.renderItem(data.item)
-  }
 
-  renderGroupBlock(data){
-    let group = data.item
-    return (
-      <View>
-        <TouchableOpacity onPress={()=>this.toggleGroup(data.index)}>
-          {this.props.renderGroup(group)}
-        </TouchableOpacity>
-        {this.renderGroupItems(group)}
-      </View>
-    )
-  }
-
-  renderGroupItems(group, isSubgroup){
-    if (group.expanded) {
-      if (isSubgroup) {
-        return (
-          <AnimatedFlatList
-            extraData={this.state}
-            keyExtractor={(item, index) => (item.id || index)}            
-            renderItem={this.renderSubGroupItems}
-            data={group.items}/>
-        )
-      } else {
-        return (
-          <AnimatedFlatList
-            extraData={this.state}
-            keyExtractor={(item, index) => (item.id || index)}            
-            renderItem={this.renderItemBlock}
-            data={group.items}/>
-        )
-      }
-    }
-  }
-
-  renderSubGroupItems = (data) => {
-    let group = data.item
-    return (
-      <View>
-        <TouchableOpacity onPress={()=>this.toggleSubGroup(group.id)}>
-          {this.props.renderSubGroup && this.props.renderSubGroup(group)}
-        </TouchableOpacity>
-        {this.renderSubGroupChildren(group)}
-      </View>
-    )
-  }
-
-  renderSubGroupChildren(group){
+  renderGroupItems = (group, isSubgroup) => {
     if (group.expanded) {
       return (
-        <AnimatedFlatList
-          {...this.props.childListProps}
+        <List
           extraData={this.state}
           keyExtractor={(item, index) => (item.id || index)}
-          renderItem={this.renderItemBlock}
-          data={group.items}/>
+          renderItem={isSubgroup ? this.renderSubGroupItems : this.renderItemBlock}
+          data={group.items}
+        />
       )
     }
   }
 
-  toggleGroup(index){
-    let data = this.state.data
+  renderSubGroupItems = (subGroupData) => {
+    return (
+      <Group
+        type={'subgroup'}
+        groupData={subGroupData}
+        onPress={this.toggleSubGroup}
+        renderGroup={this.props.renderSubGroup}
+        renderGroupItems={this.renderSubGroupChildren}
+      />
+    )
+  }
+
+  renderSubGroupChildren = (group) => {
+    if (group.expanded) {
+      return (
+        <List
+          {...this.props.childListProps}
+          extraData={this.props}
+          keyExtractor={(item, index) => (item.id || index)}
+          renderItem={this.renderItemBlock}
+          data={group.items}
+        />
+      )
+    }
+  }
+
+  toggleGroup = (index) => {
+    const { data, toggleGroup } = this.props
     data[index].expanded = !data[index].expanded
     if (!data[index].expanded) {
       data[index].items.map((item) => {
         item.expanded = false
       })
     }
-    if (this.props.toggleGroup) {
-      this.props.toggleGroup(index, data[index].expanded)
+    if (toggleGroup != null) {
+      toggleGroup(index, data[index].expanded)
     }
-    this.setState({data})
+    this.forceUpdate()
   }
 
-  toggleSubGroup(id){
-    let data = this.state.data
+  toggleSubGroup = (id) => {
+    const { data, toggleSubGroup } = this.props
     data.map((group) => {
       if (group.items) {
-        group.items.map((subgroup)=>{
+        group.items.map((subgroup) => {
           if (subgroup.id === id) {
             subgroup.expanded = !subgroup.expanded
-            if (this.props.toggleSubGroup) {
-              this.props.toggleSubGroup(id, subgroup.expanded)
+            if (toggleSubGroup != null) {
+              toggleSubGroup(id, subgroup.expanded)
             }
           }
         })
       }
     })
-    this.setState({data})
+    this.setState({ data })
   }
-
 }
-
-AwesomeList.propTypes = {
-  data: PropTypes.node.isRequired,
-  childListProps: PropTypes.object,
-  renderItem: PropTypes.func,
-  renderGroup: PropTypes.func,
-  renderSubGroup: PropTypes.func,
-  toggleGroup: PropTypes.func,
-  toggleSubGroup: PropTypes.func,
-  headerHeight: PropTypes.number,
-  renderAnimatingHeader: PropTypes.func,
-  renderAnimatingFooter: PropTypes.func,
-  disableScaleAnimation: PropTypes.bool,
-  disableOpacityAnimation: PropTypes.bool,
-}
-
-AwesomeList.defaultProps = {
-  headerHeight: 100
-}
-module.exports = AwesomeList;

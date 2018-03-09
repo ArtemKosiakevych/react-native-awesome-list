@@ -1,0 +1,82 @@
+{
+    "parser": "babel-eslint",
+    "plugins": [
+        "react",
+        "react-native",
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true,
+            "modules": true
+        }
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "airbnb-base"
+    ],
+    "rules": {
+        "arrow-body-style": 'warn',
+        "semi": [
+            "error",
+            "never"
+        ],
+        "import/no-extraneous-dependencies": [
+            false,
+            {
+                "devDependencies": false,
+                "optionalDependencies": false,
+                "peerDependencies": false
+            }
+        ],
+        "import/imports-first": [
+            "warn",
+            "DISABLE-absolute-first"
+        ],
+        "import/first": "off",
+        "import/extensions": "off",
+        "import/no-unresolved": "off",
+        "no-use-before-define": [
+            "error",
+            {
+                "functions": false,
+                "classes": false,
+                "variables": false
+            }
+        ],
+        "no-mixed-operators": "off",
+        "no-plusplus": [
+            "warn"
+        ],
+        "react-native/no-unused-styles": 2,
+        "react-native/split-platform-components": 2,
+        "react-native/no-inline-styles": 2,
+        "react-native/no-color-literals": 1,
+        "react/prop-types": [
+            "warn",
+            {}
+        ],
+        "react/no-string-refs": [
+            "warn"
+        ],
+        "no-restricted-syntax": [
+            "warn"
+        ],
+        "guard-for-in": [
+            "warn"
+        ],
+        "prefer-promise-reject-errors": "warn",
+        "no-param-reassign": "off",
+        "default-case": "off",
+        "consistent-return": "off",
+        "no-shadow": "off",
+        "no-continue": "off",
+        "no-bitwise": "off",
+        "no-prototype-builtins": "off",
+        "radix": "off",
+        "camelcase": [
+            "warn"
+        ],
+        "array-callback-return": "warn"
+    }
+}
