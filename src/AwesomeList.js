@@ -42,7 +42,7 @@ export default class AwesomeList extends React.Component<Props> {
   }
 
   /* eslint-disable class-methods-use-this */
-  componentWillUpdate() {
+  componentDidUpdate() {
     LayoutAnimation.easeInEaseOut()
   }
 
