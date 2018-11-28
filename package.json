@@ -1,6 +1,6 @@
 {
   "name": "react-native-awesome-list",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Awesome animated list with groups and subgroups for react-native",
   "main": "src/AwesomeList.js",
   "repository": {
