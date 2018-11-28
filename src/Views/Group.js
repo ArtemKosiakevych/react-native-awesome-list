@@ -22,12 +22,13 @@ const Group = ({
   const group = _.get(groupData, 'item')
   const index = _.get(groupData, 'index')
   const onPressGroup = type === 'subgroup' ? () => onPress(group.id) : () => onPress(index)
+  const isSubGroup = _.get(group, 'items[0].type', '') === 'subgroup'
   return (
     <View>
       <TouchableOpacity onPress={onPressGroup}>
         {renderGroup && renderGroup(group) || <Text>Group {index}</Text>}
       </TouchableOpacity>
-      {renderGroupItems(group, group && group.items)}
+      {renderGroupItems(group, isSubGroup)}
     </View>
   )
 }
